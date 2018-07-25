@@ -387,10 +387,7 @@
 				},
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
-					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "/Users/wangbingang/Desktop/1.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "/Users/wangbingang/Desktop/2.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": "/Users/wangbingang/Desktop/3.png"
+					"ldpi": ""
 				}
 			},
 			"debug": false
