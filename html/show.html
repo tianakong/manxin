@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #FFFFFF;
+			}
+			
+			.mui-bar-nav {
+				background-color: #1EB77F;
+			}
+			
+			.mui-title {
+				color: #FAFAFA;
+			}
+			
+			.title {
+				padding-top: 10px;
+			}
+			
+			.title h2 {
+				font-size: 15px;
+				color: #777;
+				text-align: center;
+			}
+			
+			.mui-content {
+				background-color: #FFFFFF;
+				padding: 20px;
+			}
+			
+			.title_b {
+				display: flex;
+				justify-content: space-between;
+				font-size: 12px;
+				margin-top: 15px;
+				color: #777;
+				height: 20px;
+			}
+			
+			.title_b .view img {
+				width: 16px;
+				height: 16px;
+				vertical-align: middle;
+				margin-bottom: 1px;
+			}
+			
+			.content {
+				text-indent: 2em;
+				color: #777;
+				font-size: 13px;
+				letter-spacing: 1px;
+				line-height: 22px;
+			}
+			.mui-pull-left{
+				color: white;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">时光邮局</h1>
+		</header>
+		<div class="mui-content">
+			<div class="title">
+				<h2 id="title">2017-12-09寄往2017-12-16</h2>
+				<div class="title_b">
+					<div id="user">投递人：咕咕（12**.om）</div>
+					<div class='view'>
+						<img src='../images/view.png' />
+						<text id="viewNumber"> 1</text>
+					</div>
+				</div>
+			</div>
+			<hr/>
+			<div class="content" id="content"></div>
+		</div>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				mui.post("https://weixin.weilaiwolai.com/info/show", {
+					id: self.infoId
+				}, function(data) {
+					title.innerHTML = data.data.create_time + '寄往' + data.data.send_time
+					user.innerHTML = '投递人：'+data.data.name+'（'+data.data.email+'）'
+					viewNumber.innerHTML = data.data.number
+					content.innerHTML = data.data.content
+				})
+			})
+		</script>
+	</body>
+
+</html>

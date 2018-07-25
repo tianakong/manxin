@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-bar-nav {
+				background-color: #1EB77F;
+			}
+			
+			.mui-title {
+				color: #FAFAFA;
+			}
+			.mui-table-view-cell {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+			}
+			
+			.mui-table-view-cell .name {
+				width: 60px;
+			}
+			
+			.mui-table-view-cell text {
+				color: #777777;
+				background-color: #F7F7F7;
+			}
+			
+			.right_menu {
+				color: white;
+			}
+			
+			#popover {
+				height: 50px;
+				width: 100px;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">时光邮局</h1>
+			<a id="menu" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right right_menu" href="#popover"></a>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-table-view-chevron" id="list">
+					<!--<li class="mui-table-view-cell">
+						<text>天空</text>
+						<text>67**om</text>
+						<text>2017-12-15</text>
+						<text>已寄送</text>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+		<div id="popover" class="mui-popover">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<button type="button" id="loginout" class="mui-btn mui-btn-danger">安全退出</button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var page = 1;
+			var count = 0;
+			mui.plusReady(function() {
+				getData(page)
+				document.getElementById("loginout").addEventListener("tap", function() {
+					plus.storage.removeItem("state")
+					mui.openWindow({
+						url: 'login.html',
+						id: 'login',
+						show: {
+							aniShow: 'none',
+							duration: 10000
+						}
+					});
+				})
+			})
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				count = 0;
+				page = 1;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				setTimeout(function() {
+					getData(1, true)
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui.toast('下拉刷新成功');
+				}, 1000);
+			}
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((count > 0)); //参数为true代表没有更多数据了。
+					getData(++page)
+				}, 1000);
+			}
+
+			function getData(page, f) {
+				f = f ? f : false;
+				mui.post('https://weixin.weilaiwolai.com/info/list', {
+					page: page
+				}, function(data) {
+					if(data.data.length > 0) {
+						var datas = data.data;
+						var html = '';
+						for(var i in datas) {
+							html += '<li class="mui-table-view-cell"><text class="name">' + datas[i].name + '</text><text class="row row1">' + datas[i].email + '</text><text class="row row2">' + datas[i].send_time + '</text><text class="row row3">' + datas[i].status + '</text></li>';
+						}
+						if(f) {
+							list.innerHTML = html
+						} else {
+							list.innerHTML += html
+						}
+					} else {
+						count = 1;
+					}
+				}, 'json');
+			}
+		</script>
+	</body>
+
+</html>

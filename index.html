@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>首页</title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-content {
+				height: 100%;
+			}
+			
+			.container {
+				height: 100%;
+			}
+			
+			.header-img img {
+				height: 10rem;
+				width: 100%;
+			}
+			
+			.mui-bar-nav {
+				background-color: #1EB77F;
+			}
+			
+			.mui-title {
+				color: #FAFAFA;
+			}
+			
+			.date {
+				line-height: 1.1;
+				padding: 11px 15px;
+				color: #999;
+				width: 100%;
+			}
+			
+			.content {
+				margin: 15px;
+				border: 1px solid #CCCCCC;
+			}
+			
+			.btn-submit {
+				width: 90%;
+				background-color: #1AAD19;
+				border: #1AAD19;
+			}
+			
+			.right_menu {
+				color: white;
+			}
+			
+			#popover {
+				height: 50px;
+				width: 100px;
+				text-align: center;
+			}
+			
+			.btn-submit-div {
+				height: 150px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">时光邮局</h1>
+			<a id="menu" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right right_menu" href="#popover"></a>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div id="pullrefresh" class="container mui-scroll">
+				<div class='header-img'>
+					<img src="images/header.jpg" />
+				</div>
+				<form id="form" class="mui-input-group" method="post">
+					<div class="mui-input-row">
+						<label>你的姓名：</label>
+						<input type="text" name='name' id='name' class="mui-input-clear" placeholder="你的姓名">
+					</div>
+					<div class="mui-input-row">
+						<label>收件邮箱：</label>
+						<input type="text" name='email' id="email" class="mui-input-clear" placeholder="收件邮箱">
+					</div>
+					<div class="mui-input-row mui-checkbox">
+						<label>是否公开：</label>
+						<input name="open" value="1" style="margin-right:53% ;" id='open' type="checkbox" />
+					</div>
+					<div class="mui-input-row">
+						<label>发送日期：</label>
+						<div id='pickDateBtn' class="date">选择一个未来的日期</div>
+					</div>
+					<div class="mui-input-row">
+						<label>发送时间：</label>
+						<div id='pickTimeText' class="date">选择一个未来的时间</div>
+					</div>
+					<div class="mui-input-group content">
+						<label>发送内容：</label>
+						<textarea name="content" id='content' rows="5"></textarea>
+					</div>
+					<div class="mui-button-row btn-submit-div">
+						<button type="button" data-loading-text="提交中" id="btn" class="mui-btn mui-btn-success btn-submit">确认</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="popover" class="mui-popover">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<button type="button" id="loginout" class="mui-btn mui-btn-danger">安全退出</button>
+				</div>
+			</div>
+		</div>
+		<script src="js/util.js"></script>
+		<script type="text/javascript">
+			(function() {
+				var state = plus.storage.getItem('state');
+				if(!state) {
+					mui.init({
+						swipeBack: true //启用右滑关闭功能
+					});
+				} else {
+					mui.init({
+						statusBarBackground: '#1EB77F',
+						swipeBack: true //启用右滑关闭功能
+					});
+					plus.navigator.setStatusBarStyle('light');
+				}
+				mui.plusReady(function() {
+					mui('.mui-scroll-wrapper').scroll()
+					//localStorage.setItem('state', '');
+					if(!state) {
+						mui.openWindow({
+							url: 'html/login.html',
+							id: 'login',
+							show: {
+								aniShow: 'none',
+								duration: 10000
+							}
+						});
+					}
+					var scroll = mui('.mui-scroll-wrapper').scroll();
+					var self = plus.webview.currentWebview();
+					// 创建子webview窗口 并初始化
+					var aniShow = {};
+					util.initSubpage(aniShow);
+
+					var nview = plus.nativeObj.View.getViewById('tabBar'),
+						activePage = plus.webview.currentWebview(),
+						targetPage,
+						subpages = util.options.subpages,
+						pageW = window.innerWidth,
+						currIndex = 0;
+					/**
+					 * 根据判断view控件点击位置判断切换的tab
+					 */
+					nview.addEventListener('click', function(e) {
+						var clientX = e.clientX;
+						if(clientX > 0 && clientX <= parseInt(pageW * 0.25)) {
+							currIndex = 0;
+						} else if(clientX > parseInt(pageW * 0.25) && clientX <= parseInt(pageW * 0.45)) {
+							currIndex = 1;
+						} else if(clientX > parseInt(pageW * 0.45) && clientX <= parseInt(pageW * 0.8)) {
+							currIndex = 2;
+						} else {
+							currIndex = 3;
+						}
+						// 匹配对应tab窗口	
+						if(currIndex > 0) {
+							targetPage = plus.webview.getWebviewById(subpages[currIndex - 1]);
+						} else {
+							targetPage = plus.webview.currentWebview();
+						}
+
+						if(targetPage == activePage) {
+							return;
+						}
+						//底部选项卡切换
+						util.toggleNview(currIndex);
+						// 子页面切换
+						util.changeSubpage(targetPage, activePage, aniShow);
+						//更新当前活跃的页面
+						activePage = targetPage;
+
+					});
+					document.getElementById("loginout").addEventListener("tap", function() {
+						plus.storage.removeItem("state")
+						mui.openWindow({
+							url: 'html/login.html',
+							id: 'login',
+							show: {
+								aniShow: 'none',
+								duration: 10000
+							}
+						});
+					})
+					document.getElementById("pickDateBtn").addEventListener('tap', function() {
+						var dDate = new Date();
+						//dDate.setFullYear(2014, 7, 16);
+						var minDate = new Date();
+						minDate.setFullYear(2010, 0, 1);
+						var maxDate = new Date();
+						maxDate.setFullYear(2038, 1, 19);
+						plus.nativeUI.pickDate(function(e) {
+							var d = e.date;
+							pickDateBtn.innerText = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+						}, function(e) {
+							pickDateBtn.innerText = "选择一个未来的日期";
+						}, {
+							title: "请选择日期",
+							//date: dDate,
+							minDate: minDate,
+							maxDate: maxDate
+						});
+					})
+					document.getElementById("pickTimeText").addEventListener('tap', function() {
+						var dTime = new Date();
+						dTime.setHours(dTime.getHours(), dTime.getMinutes());
+						plus.nativeUI.pickTime(function(e) {
+							var d = e.date;
+							pickTimeText.innerText = d.getHours() + ":" + d.getMinutes();
+						}, function(e) {
+							pickTimeText.innerText = "选择一个未来的时间"
+						}, {
+							title: "请选择时间",
+							is24Hour: true,
+							time: dTime
+						});
+					});
+					document.getElementById("btn").addEventListener('tap', function() {
+						var that = this;
+						var open = 0;
+						if(document.getElementById("open").checked) {
+							open = 1;
+						}
+						var formData = {
+							name: mui('#name')[0].value,
+							email: mui('#email')[0].value,
+							open: open,
+							date: mui('#pickDateBtn')[0].innerHTML,
+							time: mui('#pickTimeText')[0].innerHTML,
+							content: mui('#content')[0].value,
+							token: state
+						}
+						if(!formData.name) {
+							mui.toast('姓名不能为空');
+							return false;
+						}
+						if(!formData.email) {
+							mui.toast('邮箱不能为空');
+							return false;
+						}
+						var myReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+						if(!myReg.test(formData.email)) {
+							mui.toast('邮箱格式错误');
+							return false;
+						}
+						if(formData.date == '选择一个未来的日期' || !formData.date) {
+							mui.toast('请选择日期');
+							return false;
+						}
+						if(formData.time == '选择一个未来的时间' || !formData.time) {
+							mui.toast('请选择时间');
+							return false;
+						}
+						if(!formData.content) {
+							mui.toast('填写内容');
+							return false;
+						}
+						mui(that).button('loading');
+						mui.post('https://weixin.weilaiwolai.com/info/send', formData, function(data) {
+							mui.toast(data.info);
+							mui(that).button('reset');
+							form.reset();
+						}, 'json');
+					})
+				});
+			})();
+		</script>
+	</body>
+
+</html>

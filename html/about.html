@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+			
+			.mui-bar-nav {
+				background-color: #1EB77F;
+			}
+			
+			.mui-title {
+				color: #FAFAFA;
+			}
+			
+			.mui-content {
+				height: 100%;
+			}
+			
+			.container {
+				width: 100%;
+				height: 50%;
+				display: flex;
+				padding-top: 10px;
+				align-items: center;
+			}
+			
+			.container img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.duibai {
+				width: 100%;
+				height: 50%;
+				background-color: #273A43;
+				font-size: 16px;
+				text-align: center;
+				padding-top: 10px;
+			}
+			
+			.duibai img {
+				height: 70px;
+				width: 172px;
+			}
+			
+			.duibai div {
+				color: #fff;
+			}
+			
+			.right_menu {
+				color: white;
+			}
+			
+			#popover {
+				height: 50px;
+				width: 100px;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">时光邮局</h1>
+			<a id="menu" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right right_menu" href="#popover"></a>
+		</header>
+		<div class="mui-content">
+			<div class='duibai'>
+				<img src='../images/logo.png'>
+				<div>
+					也许有一天，我已渐渐老去；
+					<br> 也许有一天，我不再坚持曾经坚持的，
+					<br> 不再爱我深爱的,不再恨我痛恨的；
+					<br> 也许有一天，突然发现邮箱中，
+					<br> 多了一封信。
+					<br> 曾经的自己写给未来的自己，
+					<br> 仿佛瞬间，穿越时间，看到了曾经。
+					<br> 那个年轻的自己，微笑着打着招呼：
+					<br> “你，还好么？我，还好么？”
+				</div>
+			</div>
+			<div class='container'>
+				<img src='../images/about.png' />
+			</div>
+		</div>
+		<div id="popover" class="mui-popover">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<button type="button" id="loginout" class="mui-btn mui-btn-danger">安全退出</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				document.getElementById("loginout").addEventListener("tap", function() {
+					plus.storage.removeItem("state")
+					mui.openWindow({
+						url: 'login.html',
+						id: 'login',
+						show: {
+							aniShow: 'none',
+							duration: 10000
+						}
+					});
+				})
+			})
+		</script>
+	</body>
+
+</html>

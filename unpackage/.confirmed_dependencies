@@ -1,0 +1,199 @@
+{
+  "index.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "html/tab-webview-subpage-about.html",
+      "fonts/mui.ttf",
+      "fonts/iconfont.ttf",
+      "js/util.js",
+      "html/tab-webview-subpage-chat.html",
+      "images/header.jpg",
+      "js/mui.enterfocus.js",
+      "js/app.js"
+    ],
+    "refer": [
+      "html/tab-webview-subpage-setting.html",
+      "html/tab-webview-subpage-chat.html",
+      "html/tab-webview-subpage-contact.html",
+      "html/tab-webview-subpage-about.html",
+      "html/new-webview.html",
+      "html/login/login.html",
+      "html/login.html"
+    ]
+  },
+  "launch.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "html/tab-webview-subpage-about.html"
+    ],
+    "refer": [
+      "html/tab-webview-subpage-setting.html",
+      "html/tab-webview-subpage-chat.html",
+      "html/tab-webview-subpage-contact.html",
+      "html/tab-webview-subpage-about.html"
+    ]
+  },
+  "html/tab-webview-subpage-setting.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": []
+  },
+  "html/tab-webview-subpage-about.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/util.js"
+    ],
+    "refer": []
+  },
+  "html/tab-webview-subpage-chat.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "html/tab-webview-subpage-contact.html": {
+    "resources": [
+      "images/60x60.gif",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "html/new-webview.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "html/login/login.html": {
+    "href": "html/login/login.html",
+    "priority": 0,
+    "resources": [
+      "html/login/js/mui.enterfocus.js",
+      "html/login/js/app.js",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/login/forget_password.html",
+      "html/login/main.html",
+      "html/login/unlock.html",
+      "html/login/reg.html"
+    ]
+  },
+  "html/login.html": {
+    "href": "html/login.html",
+    "priority": 0,
+    "resources": [
+      "html/css/mui.min.css",
+      "html/js/mui.min.js",
+      "html/js/mui.enterfocus.js",
+      "html/js/app.js",
+      "images/iconfont-tianjia.png"
+    ],
+    "refer": [
+      "html/forget_password.html",
+      "html/main.html",
+      "html/unlock.html",
+      "html/reg.html"
+    ]
+  },
+  "html/forget_password.html": {
+    "href": "html/forget_password.html",
+    "resources": [
+      "html/css/mui.min.css",
+      "html/css/style.css",
+      "html/js/mui.min.js",
+      "html/js/app.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "html/main.html": {
+    "href": "html/main.html",
+    "resources": [
+      "html/css/mui.min.css",
+      "html/js/mui.min.js",
+      "html/js/app.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "html/unlock.html": {
+    "href": "html/unlock.html",
+    "resources": [
+      "html/css/mui.min.css",
+      "html/js/mui.min.js",
+      "html/js/mui.locker.js",
+      "html/js/app.js"
+    ],
+    "refer": [
+      "html/login.html",
+      "html/main.html"
+    ],
+    "priority": 0
+  },
+  "html/reg.html": {
+    "href": "html/reg.html",
+    "resources": [
+      "html/css/mui.min.css",
+      "html/css/style.css",
+      "html/js/mui.min.js",
+      "html/js/app.js"
+    ],
+    "refer": [
+      "html/login.html"
+    ],
+    "priority": 0
+  },
+  "html/login/forget_password.html": {
+    "href": "html/login/forget_password.html",
+    "resources": [
+      "html/login/css/style.css",
+      "html/login/js/app.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "html/login/main.html": {
+    "href": "html/login/main.html",
+    "resources": [
+      "html/login/js/app.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "html/login/unlock.html": {
+    "href": "html/login/unlock.html",
+    "resources": [
+      "html/login/js/mui.locker.js",
+      "html/login/js/app.js"
+    ],
+    "refer": [
+      "html/login/login.html",
+      "html/login/main.html"
+    ],
+    "priority": 0
+  },
+  "html/login/reg.html": {
+    "href": "html/login/reg.html",
+    "resources": [
+      "html/login/css/style.css",
+      "html/login/js/app.js"
+    ],
+    "refer": [
+      "html/login/login.html"
+    ],
+    "priority": 0
+  }
+}
